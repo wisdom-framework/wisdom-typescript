@@ -3,10 +3,10 @@
 [TypeScript](http://www.typescriptlang.org/)  lets you write JavaScript the way you really want to. TypeScript is a 
 typed superset of JavaScript that compiles to plain JavaScript. Any browser. Any host. Any OS. Open Source.
 
-Wisdom-TypeScript integrates TypeScript compilation into Wisdom. So, TypeScript files (+.ts+ files) automatically 
+Wisdom-TypeScript integrates TypeScript compilation into Wisdom. So, TypeScript files (`.ts` files) automatically 
 compiled to JavaScript at build time.
 
-It supports the Wisdom Watch Mode, so any change to a +.ts+ file immediately triggers the compilation and updates the
+It supports the Wisdom Watch Mode, so any change to a `.ts` file immediately triggers the compilation and updates the
 output file.
 
 ## Usage
@@ -94,13 +94,13 @@ generates the `target/classes/assets/Animal.js`, as well as the associated sourc
 
 ## Parameters
 
-In addition to the +version+ parameter seen above, the plugin supports:
+In addition to the `version` parameter seen above, the plugin supports:
 
 
-* +removeComments+ : When enabled, removes the comments from the generated JavaScript files. (Default: false)
-* +declaration+ : When enabled, generates corresponding +.d.ts+ files. (Default: false)
-* +module+ : Set the type of module generated among "commonjs" and "amd". (Default: commonsjs)
-* +noImplicitAny+ : When enabled, fail the compilation on expressions and declaration with an implied 'any' type. 
+* `removeComments` : When enabled, removes the comments from the generated JavaScript files. (Default: false)
+* `declaration` : When enabled, generates corresponding +.d.ts+ files. (Default: false)
+* `module` : Set the type of module generated among "commonjs" and "amd". (Default: commonsjs)
+* `noImplicitAny` : When enabled, fail the compilation on expressions and declaration with an implied 'any' type. 
 (Default: false)
-* +sourcemap+ : When enabled, generates the source map files (Default: true)     
+* `sourcemap` : When enabled, generates the source map files (Default: true)     
     
