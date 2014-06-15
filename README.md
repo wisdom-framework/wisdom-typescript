@@ -1,12 +1,12 @@
-# Wisdom-Myth
+# Wisdom-TypeScript
 
-[Myth](http://www.myth.io/) is a CSS preprocessor that lets you write pure CSS without having to worry about slow
-browser support, or even slow spec approval. It's like a CSS polyfill.
+[TypeScript](http://www.typescriptlang.org/)  lets you write JavaScript the way you really want to. TypeScript is a 
+typed superset of JavaScript that compiles to plain JavaScript. Any browser. Any host. Any OS. Open Source.
 
-Wisdom-Myth integrate Myth pre-processing in Wisdom. So, stylesheets (CSS files) containing Myth directives are
-automatically processed at build time.
+Wisdom-TypeScript integrates TypeScript compilation into Wisdom. So, TypeScript files (+.ts+ files) automatically 
+compiled to JavaScript at build time.
 
-It supports the Wisdom Watch Mode, so any change to a CSS file immediately triggers the processing and updates the
+It supports the Wisdom Watch Mode, so any change to a +.ts+ file immediately triggers the compilation and updates the
 output file.
 
 ## Usage
@@ -16,21 +16,21 @@ Add the following plugin to you `pom.xml` file:
 ````
 <plugin>
     <groupId>org.wisdom-framework</groupId>
-    <artifactId>wisdom-myth-maven-plugin</artifactId>
+    <artifactId>wisdom-typescript-maven-plugin</artifactId>
     <version>${project.version}</version>
     <executions>
         <execution>
-            <id>compile-myth-files</id>
+            <id>compile-typescript-files</id>
             <phase>compile</phase>
             <goals>
-                <goal>compile-myth</goal>
+                <goal>compile-typescript</goal>
             </goals>
         </execution>
     </executions>
 </plugin>
 ````
 
-By default, Myth 0.3.4 is used, but you can set the version to use as follows:
+By default, TypeScript 1.0.1 is used, but you can set the version to use as follows:
 
 ````
 <plugin>
@@ -47,78 +47,60 @@ By default, Myth 0.3.4 is used, but you can set the version to use as follows:
             </execution>
         </executions>
     <configuration>
-        <version>0.3.4</version>
+        <version>1.0.1</version>
     </configuration>
 </plugin>
 ````
 
 ## Examples
 
-The process CSS files can be either in `src/main/resources/assets` (internal resources,
+The  TypeScript files can be either in `src/main/resources/assets` (internal resources,
 packaged within the application), or in `src/main/assets` (external resources, only packaged within the distribution).
 
-For example, the file `src/main/resources/assets/style.css` with the following content:
+For example, the file `src/main/resources/assets/Animal.ts` with the following content:
 
 ````
-:root {
-    var-purple: #847AD1;
-    var-large: 10px;
+class Animal {
+    constructor(public name: string) { }
+    move(meters: number) {
+        alert(this.name + " moved " + meters + "m.");
+    }
 }
 
-a {
-    color: var(purple);
+class Snake extends Animal {
+    constructor(name: string) { super(name); }
+    move() {
+        alert("Slithering...");
+        super.move(5);
+    }
 }
 
-pre {
-    padding: var(large);
+class Horse extends Animal {
+    constructor(name: string) { super(name); }
+    move() {
+        alert("Galloping...");
+        super.move(45);
+    }
 }
+
+var sam = new Snake("Sammy the Python");
+var tom: Animal = new Horse("Tommy the Palomino");
+
+sam.move();
+tom.move(34);
 ````
 
-generates the `target/classes/assets/style.css` with the following content:
+generates the `target/classes/assets/Animal.js`, as well as the associated source map and declaration.
 
-````
-a {
-  color: #847AD1;
-}
+## Parameters
 
-pre {
-  padding: 10px;
-}
-````
+In addition to the +version+ parameter seen above, the plugin supports:
 
-While, the file `src/main/assets/style2.css` with the following content:
 
-````
-:root {
-    var-purple: #847AD1;
-}
-
-a {
-    color: var(purple);
-}
-
-a:hover {
-    color: color(var(purple) tint(20%));
-}
-
-a {
-    transition: color .2s;
-}
-````
-
-generates the `target/wisdom/assets/style2.css` with the following content:
-
-````
-a {
-  color: #847AD1;
-}
-
-a:hover {
-  color: rgb(157, 149, 218);
-}
-
-a {
-  -webkit-transition: color .2s;
-  transition: color .2s;
-}
-````
+* +removeComments+ : When enabled, removes the comments from the generated JavaScript files. (Default: false)
+* +declaration+ : When enabled, generates corresponding +.d.ts+ files. (Default: false)
+* +module+ : Set the type of module generated among "commonjs" and "amd". (Default: commonsjs)
+* +noImplicitAny+ : When enabled, fail the compilation on expressions and declaration with an implied 'any' type. 
+(Default: false)
+* +sourcemap+ : When enabled, generates the source map files (Default: true)     
+    
