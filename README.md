@@ -35,14 +35,14 @@ By default, TypeScript 1.0.1 is used, but you can set the version to use as foll
 ````
 <plugin>
     <groupId>org.wisdom-framework</groupId>
-    <artifactId>wisdom-myth-maven-plugin</artifactId>
+    <artifactId>wisdom-typescript-maven-plugin</artifactId>
     <version>${project.version}</version>
     <executions>
             <execution>
-                <id>compile-myth-files</id>
+                <id>compile-typescript-files</id>
                 <phase>compile</phase>
                 <goals>
-                    <goal>compile-myth</goal>
+                    <goal>compile-typescript</goal>
                 </goals>
             </execution>
         </executions>
