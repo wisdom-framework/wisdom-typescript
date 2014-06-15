@@ -200,60 +200,83 @@ public class TypeScriptMojo extends AbstractWisdomWatcherMojo implements Constan
         // destination directory
         File destination = getOutputFile(input, "js");
 
+        File theInput = input;
+
         // Create the destination folder.
         if (!destination.getParentFile().isDirectory()) {
-            destination.getParentFile().mkdirs();
+            getLog().debug("Creating the parent of " + destination.getAbsolutePath() + ":"
+                    + destination.getParentFile().mkdirs());
         }
 
         // If the destination file is more recent (or equally recent) than the input file, process that one
         if (destination.isFile() && destination.lastModified() >= input.lastModified()) {
             getLog().info("Processing " + destination.getAbsolutePath() + " instead of " + input.getAbsolutePath() +
                     " - the file was already processed");
-            input = destination;
+            theInput = destination;
         }
 
         // Now execute the compiler
+        // We compute the set of argument according to the Mojo's configuration.
         try {
-            List<String> arguments = new ArrayList<>();
-            if (removeComments) {
-                arguments.add("--removeComments");
-            }
-
-            if (declaration) {
-                arguments.add("--declaration");
-            }
-
-            if ("amd".equalsIgnoreCase(module)) {
-                arguments.add("--module");
-                arguments.add("amd");
-            }
-
-            if (sourcemap) {
-                arguments.add("--sourcemap");
-            }
-
-            if(noImplicitAny) {
-                arguments.add("--noImplicitAny");
-            }
-
-            arguments.add("--out");
-            arguments.add(destination.getAbsolutePath());
-            arguments.add(input.getAbsolutePath());
+            List<String> arguments = getArguments(input, destination);
 
             int exit = typescript.execute(TYPE_SCRIPT_COMMAND,
                     arguments.toArray(new String[arguments.size()]));
             getLog().debug("TypeScript Compiler execution exiting with status: " + exit);
         } catch (MojoExecutionException e) {
+            // If the NPM execution has caught an error stream, try to create the associated watching exception.
             if (!Strings.isNullOrEmpty(typescript.getLastErrorStream())) {
-                throw build(typescript.getLastErrorStream(), input);
+                throw build(typescript.getLastErrorStream(), theInput);
             } else {
-                throw new WatchingException(ERROR_TITLE, "Error while compiling " + input
-                        .getAbsolutePath(), input, e);
+                throw new WatchingException(ERROR_TITLE, "Error while compiling " + theInput
+                        .getAbsolutePath(), theInput, e);
             }
         }
 
     }
 
+    /**
+     * Creates the arguments to invoke the compiler.
+     * @param input the input file
+     * @param destination the output file
+     * @return the argument.
+     */
+    private List<String> getArguments(File input, File destination) {
+        List<String> arguments = new ArrayList<>();
+        if (removeComments) {
+            arguments.add("--removeComments");
+        }
+
+        if (declaration) {
+            arguments.add("--declaration");
+        }
+
+        if ("amd".equalsIgnoreCase(module)) {
+            arguments.add("--module");
+            arguments.add("amd");
+        }
+
+        if (sourcemap) {
+            arguments.add("--sourcemap");
+        }
+
+        if (noImplicitAny) {
+            arguments.add("--noImplicitAny");
+        }
+
+        arguments.add("--out");
+        arguments.add(destination.getAbsolutePath());
+        arguments.add(input.getAbsolutePath());
+        return arguments;
+    }
+
+    /**
+     * Creates the Watching Exception by parsing the NPM error log.
+     *
+     * @param message the log
+     * @param source  the file having thrown the error
+     * @return the watching exception
+     */
     private WatchingException build(String message, File source) {
         String[] lines = message.split("\n");
         for (String l : lines) {
@@ -270,7 +293,7 @@ public class TypeScriptMojo extends AbstractWisdomWatcherMojo implements Constan
             String reason = matcher.group(4);
             File file = new File(path);
             return new WatchingException(ERROR_TITLE, reason, file,
-                    Integer.valueOf(line), Integer.valueOf(character), null);
+                    Integer.parseInt(line), Integer.parseInt(character), null);
         } else {
             return new WatchingException(ERROR_TITLE, message, source, null);
         }
@@ -291,6 +314,7 @@ public class TypeScriptMojo extends AbstractWisdomWatcherMojo implements Constan
 
     /**
      * A file is deleted - delete the output.
+     * This method deletes the generated js, js.map (source map) and declaration (d.ts) files.
      *
      * @param file the file
      * @return {@literal true} as the pipeline should continue
@@ -303,6 +327,13 @@ public class TypeScriptMojo extends AbstractWisdomWatcherMojo implements Constan
         return true;
     }
 
+    /**
+     * Gets the output file for the given input and the given extension.
+     *
+     * @param input the input file
+     * @param ext   the extension
+     * @return the output file, may not exist
+     */
     protected File getOutputFile(File input, String ext) {
         File source;
         File destination;
