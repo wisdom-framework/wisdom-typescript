@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.wisdom-framework</groupId>
         <artifactId>wisdom-framework</artifactId>
-        <version>0.5.1</version>
+        <version>0.6</version>
     </parent>
 
     <artifactId>wisdom-typescript-maven-plugin</artifactId>
@@ -14,7 +14,7 @@
 
     <properties>
         <!-- should match Wisdom parent -->
-        <wisdom.version>0.6-SNAPSHOT</wisdom.version>
+        <wisdom.version>0.6</wisdom.version>
         <mavenPluginPluginVersion>3.2</mavenPluginPluginVersion>
     </properties>
 

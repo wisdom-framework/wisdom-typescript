@@ -17,7 +17,7 @@ Add the following plugin to you `pom.xml` file:
 <plugin>
     <groupId>org.wisdom-framework</groupId>
     <artifactId>wisdom-typescript-maven-plugin</artifactId>
-    <version>${project.version}</version>
+    <version>0.6</version> <!-- set the version here -->
     <executions>
         <execution>
             <id>compile-typescript-files</id>
