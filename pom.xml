@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>wisdom-typescript-maven-plugin</artifactId>
-    <version>0.6-SNAPSHOT</version>
+    <version>0.6</version>
     <packaging>maven-plugin</packaging>
 
     <properties>
