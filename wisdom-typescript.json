@@ -1,0 +1,23 @@
+{
+    "name": "wisdom-typescript",
+    "version":"0.6",
+    "description": "TypeScript is a typed superset of JavaScript that compiles to plain JavaScript. Any browser. Any host. Any OS. Open Source. It supports the Wisdom Watch Mode, so any change to a .ts file immediately triggers the compilation and updates the output file.",
+ "repository": {
+        "type": "git",
+        "url": "https://github.com/wisdom-framework/wisdom-typescript"
+    },
+
+    "author": "The Wisdom Team",
+    "license": {
+            "type": "Apache",
+            "url": "https://github.com/wisdom-framework/wisdom-typescript/blob/master/LICENSE.txt"
+        },
+    "homepage": "https://github.com/wisdom-framework/wisdom-typescript",
+    "keywords": [
+        "javascript",
+        "compliler",
+        "language"
+        
+    ]
+}
+
