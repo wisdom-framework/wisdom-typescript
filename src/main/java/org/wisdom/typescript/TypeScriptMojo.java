@@ -84,7 +84,7 @@ public class TypeScriptMojo extends AbstractWisdomWatcherMojo implements Constan
     /**
      * The version of the TypeScript NPM to use.
      */
-    @Parameter(defaultValue = "1.0.1")
+    @Parameter(defaultValue = "1.3.0")
     String version;
 
     /**
@@ -334,7 +334,7 @@ public class TypeScriptMojo extends AbstractWisdomWatcherMojo implements Constan
      * @param ext   the extension
      * @return the output file, may not exist
      */
-    protected File getOutputFile(File input, String ext) {
+    public File getOutputFile(File input, String ext) {
         File source;
         File destination;
         if (input.getAbsolutePath().startsWith(internalSources.getAbsolutePath())) {

@@ -50,13 +50,13 @@ public class TypeScriptMojoTest {
         nodeDirectory = new File("target/test/node");
         nodeDirectory.mkdirs();
         Log log = new SystemStreamLog();
-        NodeManager manager = new NodeManager(log, nodeDirectory);
+        NodeManager manager = new NodeManager(log, nodeDirectory, mojo);
         manager.installIfNotInstalled();
         mojo = new TypeScriptMojo();
         mojo.basedir = new File(FAKE_PROJECT);
         mojo.buildDirectory = new File(FAKE_PROJECT_TARGET);
         mojo.buildDirectory.mkdirs();
-        mojo.version = "1.0.1";
+        mojo.version = "1.3";
 
         mojo.removeComments = false;
         mojo.declaration = true;
