@@ -56,7 +56,7 @@ public class TypeScriptMojoTest {
         mojo.basedir = new File(FAKE_PROJECT);
         mojo.buildDirectory = new File(FAKE_PROJECT_TARGET);
         mojo.buildDirectory.mkdirs();
-        mojo.version = "1.3";
+        mojo.version = "1.4.1";
 
         mojo.removeComments = false;
         mojo.declaration = true;

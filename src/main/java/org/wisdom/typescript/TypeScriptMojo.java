@@ -84,7 +84,7 @@ public class TypeScriptMojo extends AbstractWisdomWatcherMojo implements Constan
     /**
      * The version of the TypeScript NPM to use.
      */
-    @Parameter(defaultValue = "1.3.0")
+    @Parameter(defaultValue = "1.4.1")
     String version;
 
     /**
