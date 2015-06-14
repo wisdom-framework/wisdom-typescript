@@ -114,6 +114,34 @@ public class TypeScriptMojoTest {
     }
 
     @Test
+    public void testTargetArgument() throws MojoFailureException,
+            MojoExecutionException, IOException {
+        mojo.removeComments = false;
+        mojo.declaration = false;
+        mojo.module = "amd";
+        mojo.sourcemap = false;
+        mojo.noImplicitAny = false;
+        mojo.target = "ES6";
+        cleanup();
+        mojo.execute();
+
+        File js = new File(FAKE_PROJECT_TARGET, "classes/Animal.js");
+        File decl = new File(FAKE_PROJECT_TARGET, "classes/Animal.d.ts");
+        File map = new File(FAKE_PROJECT_TARGET, "classes/Animal.js.map");
+        assertThat(js).isFile();
+        assertThat(decl).doesNotExist();
+        assertThat(map).doesNotExist();
+
+
+        js = new File(FAKE_PROJECT_TARGET, "wisdom/assets/ts/raytracer.js");
+        decl = new File(FAKE_PROJECT_TARGET, "wisdom/assets/ts/raytracer.d.ts");
+        map = new File(FAKE_PROJECT_TARGET, "wisdom/assets/ts/raytracer.js.map");
+        assertThat(js).isFile();
+        assertThat(decl).doesNotExist();
+        assertThat(map).doesNotExist();
+    }
+
+    @Test
     public void testWatching() throws MojoFailureException, MojoExecutionException, IOException, WatchingException, InterruptedException {
         cleanup();
 

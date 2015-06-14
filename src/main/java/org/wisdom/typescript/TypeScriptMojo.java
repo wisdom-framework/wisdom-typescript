@@ -84,7 +84,7 @@ public class TypeScriptMojo extends AbstractWisdomWatcherMojo implements Constan
     /**
      * The version of the TypeScript NPM to use.
      */
-    @Parameter(defaultValue = "1.4.1")
+    @Parameter(defaultValue = "1.5.0-beta")
     String version;
 
     /**
@@ -116,6 +116,13 @@ public class TypeScriptMojo extends AbstractWisdomWatcherMojo implements Constan
      */
     @Parameter(defaultValue = "true")
     boolean sourcemap;
+
+    /**
+     * The TypeScript target.
+     * Specify ECMAScript target version: 'ES3' (default), 'ES5', or 'ES6' (experimental)
+     */
+    @Parameter
+    String target;
 
     private NPM typescript;
 
@@ -262,6 +269,11 @@ public class TypeScriptMojo extends AbstractWisdomWatcherMojo implements Constan
 
         if (noImplicitAny) {
             arguments.add("--noImplicitAny");
+        }
+
+        if (target != null) {
+            arguments.add("--target");
+            arguments.add(target);
         }
 
         arguments.add("--out");
